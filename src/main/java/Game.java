@@ -7,6 +7,8 @@ import java.util.Scanner;
  */
 public class Game extends Board {
 
+    private static int X_COORDINATE = -1;
+    private static int Y_COORDINATE = -1;
     @Setter
     String playerOne;
     @Setter
@@ -14,9 +16,6 @@ public class Game extends Board {
     @Setter
     String currentPlayer;
     Scanner scanner = new Scanner(System.in);
-
-    private static int X_COORDINATE = -1;
-    private static int Y_COORDINATE = -1;
 
     public Game() {
         super();
@@ -54,7 +53,7 @@ public class Game extends Board {
     private Boolean isDiagonalWin() {
         if (!(gameBoard[1][1].equals(INITIALIZE_CHAR)) &&
                 ((gameBoard[0][0].equals(gameBoard[1][1]) && gameBoard[0][0].equals(gameBoard[2][2])) ||
-                (gameBoard[0][2].equals(gameBoard[1][1]) && gameBoard[0][2].equals(gameBoard[2][0])))) {
+                        (gameBoard[0][2].equals(gameBoard[1][1]) && gameBoard[0][2].equals(gameBoard[2][0])))) {
             return true;
         }
         return false;
@@ -85,12 +84,20 @@ public class Game extends Board {
         }
     }
 
+    private boolean isPlayerNamesValid() {
+        return !playerOne.startsWith(playerTwo.substring(0,1));
+    }
+
     private void initializePlayers() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter First Player Name:");
         this.setPlayerOne(scanner.next());
         System.out.print("Enter Second Player Name:");
         this.setPlayerTwo(scanner.next());
+        if(!isPlayerNamesValid()) {
+            System.out.println("Two players name can't start with same alphabet!\nTry Again!");
+            initializePlayers();
+        }
         this.setCurrentPlayer(playerOne);
     }
 
@@ -109,7 +116,7 @@ public class Game extends Board {
             switchPlayer();
         }
 
-        if(isBoardFull() && !isWin()) {
+        if (isBoardFull() && !isWin()) {
             System.out.println("GAME DRAW!!!");
             displayBoard();
         }
