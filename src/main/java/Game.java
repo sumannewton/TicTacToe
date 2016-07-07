@@ -114,25 +114,25 @@ public class Game extends Board {
             displayBoard();
         }
 
-        while (true) {
+        Boolean flag = true;
+        while (flag) {
             System.out.println("Do you want to play again?");
             System.out.println("1.Re-Match\n2.New Game\n3.Exit");
             switch (scanner.nextInt()) {
                 case 1:
+                    flag = !flag;
                     resetBoard();
-                    start();
-                    break;
                 case 2:
+                    flag = !flag;
                     resetBoard();
                     initializePlayers();
-                    start();
-                    break;
                 case 3:
                     System.exit(0);
                 default:
                     System.out.println("Invaid Selection: Select Again");
             }
         }
+        start();
     }
 
 }
